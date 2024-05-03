@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  fcc-project-timestamp:
+    build: .
+    container_name: fcc-project-timestamp
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 3000:3000
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.fcc-project-timestamp.rule=Host(`fcc-project-timestamp.app.honghong.me`)'
+      - 'traefik.http.routers.fcc-project-timestamp.entrypoints=https'
+      - 'traefik.http.routers.fcc-project-timestamp.service=fcc-project-timestamp'
+      - 'traefik.http.routers.fcc-project-timestamp.tls.certresolver=cloudflare'
+      - 'traefik.http.services.fcc-project-timestamp.loadbalancer.server.port=3000'
